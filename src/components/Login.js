@@ -4,15 +4,15 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import Group from './assets/Group.png'
 import ParticlesBg from 'particles-bg'
-import {Link} from 'react-router-dom'
+import {Link , useHistory} from 'react-router-dom'
 
 /* continue from 32:20 */
 
 export default function Login() {
   const emailRef = useRef()
   const passwordRef = useRef()
- 
-  const { signup  } = useAuth()
+  const history = useHistory()
+  const { login  } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -25,10 +25,10 @@ export default function Login() {
     try {
       setError("")
       setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value)
-      
+      await login(emailRef.current.value, passwordRef.current.value)
+      history.push("/loginsucess")
     } catch {
-      setError("Failed to create an account")
+      setError("Failed to login :/")
     }
 
     setLoading(false)
@@ -69,6 +69,9 @@ export default function Login() {
               </Button>
 
           </Form>
+          <div className = "w-100 text-center mt-3">
+            <Link to = "/forgot-password">Forgot Password</Link>
+          </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
